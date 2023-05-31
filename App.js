@@ -2,8 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import userRouter from "./routes/userRouter.js"
+import siteRouter from "./routes/siteRouter.js"
 
-import { auth } from "./middlewares/auth.js";
+import { auth, isLoggedIn } from "./middlewares/auth.js";
 import { errorHandler } from "./helpers/errorHandler.js";
 
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(auth);
 
 app.use('/user', userRouter);
+app.use('/site', isLoggedIn, siteRouter);
 
 app.use((err, req, res, next) => errorHandler(err, req, res, next));   
 

@@ -1,12 +1,37 @@
 import mongoose from 'mongoose';
 
 const missionSchema = new mongoose.Schema({
-    
+    name: {
+        type: String,
+        required: true
+    },
+    speed: Number,
+    alt: Number,
+    waypoints: {
+        type: [{
+            alt: Number,
+            lat: Number,
+            lng: Number
+        }],
+        required: true,
+        minlength: 2
+    },
+    site: {
+        type: mongoose.Types.ObjectId,
+        ref: 'siteModel',
+        required: true
+    },
+    category: {
+        type: mongoose.Types.ObjectId,
+        ref: 'categoryModel'
+    },
+    completed_on: Date
+
 },
 {
     timestamps: {
-        'createdAt': 'created_at',
-        'updatedAt': 'updated_at'
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
     }
 });
 
