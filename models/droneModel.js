@@ -17,10 +17,27 @@ const droneSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    status: {
+        type: String,
+        default: 'deployed',
+        required: true
+    },
     site: {
         type: mongoose.Types.ObjectId,
-        ref: 'siteModel',
+        ref: 'siteModel'
+    },
+    created_by: {
+        type: mongoose.Types.ObjectId,
+        ref: 'userModel',
         required: true
+    },
+    assigned_to: {
+        type: mongoose.Types.ObjectId,
+        ref: 'userModel'
+    },
+    mission: {
+        type: mongoose.Types.ObjectId,
+        ref: 'missionModel'
     },
     deleted_by: {
         type: mongoose.Types.ObjectId,
