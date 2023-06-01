@@ -17,8 +17,9 @@ export const userLogin = (req, res, next) => {
                 bcrypt.compare(password, data.password)
                     .then((check) => {
                         if (check) {
-                            const token = jwt.sign({ email: data.email, _id: data._id }, process.env.HASHTOKEN);
-                            return res.status(200).json({ token, message: "You are logged in successfully." });
+                            const token = jwt.sign({ email: data.email, _id: data._id, admin: data.admin, timestamp: Date.now() }, process.env.HASHTOKEN);
+                            res.cookie('jwtToken', token, { httpOnly: true, maxAge: 24*60*60*1000 }) // Expires in a day
+                            return res.status(200).json({ email: data.email, message: "You are logged in successfully." });
                         }
                         else
                             throw new Err('Invalid Credentials.', 403);
@@ -58,8 +59,9 @@ export const userSignup = async (req, res, next) => {
         .then((hash) => {
             userModel.create({ name, email, password: hash })
                 .then((data) => {
-                    const token = jwt.sign({ email: data.email, _id: data._id }, process.env.HASHTOKEN);
-                    return res.status(200).json({ token, message: "You are signuped successfully." });
+                    const token = jwt.sign({ email: data.email, _id: data._id, admin: false, timestamp: Date.now() }, process.env.HASHTOKEN);
+                    res.cookie('jwtToken', token, { httpOnly: true, maxAge: 24*60*60*1000 }) // Expires in a day
+                    return res.status(200).json({ email: data.email, message: "You are signuped successfully." });
                 })
                 .catch((err) => {
                     next(err);

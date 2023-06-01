@@ -6,6 +6,7 @@ import siteRouter from "./routes/siteRouter.js";
 import droneRouter from "./routes/droneRouter.js";
 import categoryRouter from "./routes/categoryRouter.js";
 import missionRouter from "./routes/missionRouter.js";
+import cookieParser from "cookie-parser";
 
 import { auth, isLoggedIn } from "./middlewares/auth.js";
 import { errorHandler } from "./helpers/errorHandler.js";
@@ -17,6 +18,7 @@ app.use(express.json({ limit: "30mb", extended: true }))
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+app.use(cookieParser);
 app.use(auth);
 
 app.use('/user', userRouter);

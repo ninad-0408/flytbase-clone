@@ -5,10 +5,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const auth = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
+    const token = req.cookies?.jwtToken;
 
     if(token)
-    req.user = jwt.verify(token, process.env.HASHTOKEN);
+        req.user = jwt.verify(token, process.env.HASHTOKEN);
     next();
 }
 
@@ -17,4 +17,11 @@ export const isLoggedIn = (req, res, next) => {
         next();
     else 
         next(new Err('You are not logged in.', 403));
+}
+
+export const isAdmin = (req, res, next) => {
+    if(req.user?.admin === true)
+        next();
+    else
+        next(new Err('You are not authorized to perform this action.', 401));
 }

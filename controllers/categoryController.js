@@ -1,5 +1,6 @@
 import { Err } from "../helpers/errorHandler.js";
 import categoryModel from "../models/categoryModel.js";
+import missionModel from "../models/missionModel.js";
 
 export const getCategories = async (req, res, next) => {
     try {
@@ -56,6 +57,8 @@ export const updateCategory = async (req, res, next) => {
 export const deleteCategory = async (req, res, next) => {
     try {
         const { categoryId } = req.params;
+
+        await missionModel.updateMany({ category: categoryId }, { $unset: { category: 1 } })
 
         const category = await categoryModel.findByIdAndDelete(categoryId);
 

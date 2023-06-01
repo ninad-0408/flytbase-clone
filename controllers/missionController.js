@@ -7,11 +7,49 @@ export const getMissions = async (req, res, next) => {
     try {
         const sites = await siteModel.find({ created_by: req.user._id, status: { $ne: 'deleted' } }, { _id: 1 });
 
-        const siteIds = sites.map((site) => site._id);
+        const siteIds = sites.map((site) => site._id.toString());
 
         const missions = await missionModel.find({ site: { $in: siteIds }, status: { $ne: 'deleted' } });
 
         return res.status(200).json({ missions, message: "Missions fetched successfully."});
+    }
+    catch (err) {
+        next(err);
+    }
+}
+
+export const getSiteMissions = async (req, res, next) => {
+    try {
+        const { siteId } = req.params;
+
+        const checkSite = await siteModel.findOne({ _id: siteId, created_by: req.user._id, status: { $ne: 'deleted' } });
+
+        if (!checkSite)
+            throw new Err("Site not found.", 400);
+
+        const siteMissions = await missionModel.find({ site: siteId, status: { $ne: 'deleted' } });
+
+        return res.status(200).json({ siteMissions, message: "Missions fetched successfully." });
+
+    }
+    catch (err) {
+        next(err);
+    }
+}
+
+export const getCategoryMissions = async (req, res, next) => {
+    try {
+        const { categoryId } = req.params;
+
+        const checkCategory = await categoryModel.findOne({ _id: categoryId, created_by: req.user._id });
+
+        if (!checkCategory)
+            throw new Err("Category not found.", 400);
+
+        const categoryMissions = await missionModel.find({ category: categoryId, status: { $ne: 'deleted' } });
+
+        return res.status(200).json({ categoryMissions, message: "Missions fetched successfully." });
+
     }
     catch (err) {
         next(err);
