@@ -1,4 +1,4 @@
-import { Err } from "../helpers/errorHandler,js";
+import { Err } from "../helpers/errorHandler.js";
 import droneModel from "../models/droneModel.js";
 import missionModel from "../models/missionModel.js";
 import categoryModel from "../models/categoryModel.js";

@@ -60,7 +60,7 @@ export const deleteSite = async (req, res, next) => {
     try {
         const { siteId } = req.params;
 
-        const site = await siteModel.findOne({ _id: siteId, status: { $eq: 'deleted' } });
+        const site = await siteModel.findOne({ _id: siteId, status: { $ne: 'deleted' } });
 
         if (site) {
             if (site.created_by == req.user._id) {
@@ -75,7 +75,7 @@ export const deleteSite = async (req, res, next) => {
                 site.status = 'deleted';
                 site.deleted_on = dateNow;
 
-                await missionModel.updateMany({ site: siteId, status: { $ne: ['deleted', 'completed'] } }, { status: 'deleted', deleted_on: dateNow })
+                await missionModel.updateMany({ site: siteId, status: { $nin: ['deleted', 'completed'] } }, { status: 'deleted', deleted_on: dateNow })
 
                 await site.save();
 
