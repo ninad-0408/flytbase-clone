@@ -5,6 +5,7 @@ import userRouter from "./routes/userRouter.js";
 import siteRouter from "./routes/siteRouter.js";
 import droneRouter from "./routes/droneRouter.js";
 import categoryRouter from "./routes/categoryRouter.js";
+import missionRouter from "./routes/missionRouter.js";
 
 import { auth, isLoggedIn } from "./middlewares/auth.js";
 import { errorHandler } from "./helpers/errorHandler.js";
@@ -22,6 +23,7 @@ app.use('/user', userRouter);
 app.use('/site', isLoggedIn, siteRouter);
 app.use('/drone', isLoggedIn, droneRouter);
 app.use('/category', isLoggedIn, categoryRouter);
+app.use('/mission', isLoggedIn, missionRouter);
 
 app.use((err, req, res, next) => errorHandler(err, req, res, next));   
 

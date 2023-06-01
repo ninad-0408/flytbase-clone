@@ -1,9 +1,11 @@
 import siteModel from "../models/siteModel.js";
+import droneModel from "../models/droneModel.js";
 import { Err } from "../helpers/errorHandler.js";
+import missionModel from "../models/missionModel.js";
 
 export const getSites = async (req, res, next) => {
     try {
-        const sites = await siteModel.find({ created_by: req.user._id, status: 'active' });
+        const sites = await siteModel.find({ created_by: req.user._id, status: { $ne: 'deleted' } });
         return res.status(200).json({ sites, message: 'All Sites fetched Successfully.' });
     }
     catch (err) {
@@ -58,12 +60,22 @@ export const deleteSite = async (req, res, next) => {
     try {
         const { siteId } = req.params;
 
-        const site = await siteModel.findOne({ _id: siteId, status: 'active' });
+        const site = await siteModel.findOne({ _id: siteId, status: { $eq: 'deleted' } });
 
         if (site) {
             if (site.created_by == req.user._id) {
+
+                const drones = await droneModel.find({ site: siteId }, { _id: 1 });
+
+                if (drones.length)
+                    throw new Err('Site cannot be deleted: Some drones are allocated to this site.', 400);
+                
+                const dateNow = new Date();
+
                 site.status = 'deleted';
-                site.deleted_on = new Date();
+                site.deleted_on = dateNow;
+
+                await missionModel.updateMany({ site: siteId, status: { $ne: ['deleted', 'completed'] } }, { status: 'deleted', deleted_on: dateNow })
 
                 await site.save();
 

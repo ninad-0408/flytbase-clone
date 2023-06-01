@@ -25,6 +25,12 @@ const missionSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'categoryModel'
     },
+    status: {
+        type: String,
+        default: 'created',
+        required: true
+    },
+    deleted_on: Date,
     completed_on: Date
 
 },

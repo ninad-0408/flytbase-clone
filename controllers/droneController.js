@@ -94,12 +94,12 @@ export const deleteDrone = async (req, res, next) => {
     try {
         const { droneId } = req.params;
 
-        const drone = await droneModel.findOne({ _id: droneId, status: { $ne: 'destroyed' } });
+        const drone = await droneModel.findOne({ _id: droneId, status: { $ne: "deleted" } });
 
         if (drone) {
             drone.deleted_by = req.user._id;
             drone.deleted_on = new Date();
-            drone.status = "destroyed";
+            drone.status = "deleted";
 
             await drone.save();
 

@@ -1,5 +1,5 @@
-import { Err } from "../helpers/errorHandler";
-import categoryModel from "../models/categoryModel";
+import { Err } from "../helpers/errorHandler.js";
+import categoryModel from "../models/categoryModel.js";
 
 export const getCategories = async (req, res, next) => {
     try {
