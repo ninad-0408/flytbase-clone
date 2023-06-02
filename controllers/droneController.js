@@ -3,6 +3,7 @@ import droneModel from "../models/droneModel.js";
 import missionModel from "../models/missionModel.js";
 import categoryModel from "../models/categoryModel.js";
 import siteModel from "../models/siteModel.js";
+import userModel from "../models/userModel.js";
 import mongoose from "mongoose";
 
 export const getDrones = async (req, res, next) => {
@@ -54,7 +55,7 @@ export const getSiteDrones = async (req, res, next) => {
 export const getCategoryDrones = async (req, res, next) => {
     try {
         const { categoryId } = req.params;
-
+        
         const checkCategory = await categoryModel.findOne({ _id: categoryId, created_by: req.user._id });
 
         if (!checkCategory)
@@ -77,6 +78,14 @@ export const createDrone = async (req, res, next) => {
     try {
         const { drone_id, name, make_name, drone_type, assigned_to } = req.body;
 
+        let checkUser;
+
+        if (mongoose.Types.ObjectId.isValid(assigned_to)) 
+            checkUser = await userModel.findById(assigned_to);
+
+        if (!checkUser)
+            throw new Err("User not found.", 400);
+
         const newDrone = await droneModel.create({ drone_id, name, make_name, drone_type, assigned_to, created_by: req.user._id });
 
         return res.status(200).json({ newDrone, message: "New drone added successfully." });
@@ -88,13 +97,25 @@ export const createDrone = async (req, res, next) => {
 
 export const updateDrone = async (req, res, next) => {
     try {
-        const { name, make_name, site, mission } = req.body;
+        const { name, make_name, site, mission, assigned_to } = req.body;
         const { droneId } = req.params;
 
         const drone = await droneModel.findOne({ _id: droneId, status: { $ne: 'deleted' } });
 
         if (drone) {
             if (req.user.admin || drone.assigned_to == req.user._id) {
+
+                if (req.user.admin || drone.created_by == req.user._id) {
+                    let checkUser;
+
+                    if (mongoose.Types.ObjectId.isValid(assigned_to)) 
+                        checkUser = await userModel.findById(assigned_to);
+    
+                    if (!checkUser)
+                        throw new Err("User not found.", 400);
+
+                    drone.assigned_to = assigned_to
+                }
 
                 let checkSite;
 

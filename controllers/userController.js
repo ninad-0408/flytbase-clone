@@ -37,37 +37,52 @@ export const userLogin = (req, res, next) => {
 };
 
 export const userSignup = async (req, res, next) => {
-    const { name, email, password, confirmPassword } = req.body;
 
-    // check duplicate email
-    await userModel.findOne({ email })
-        .then((data) => {
-            if (data) {
-                if (data.email == email)
-                    throw new Err("Email entered is already registered with us.", 403);
+    try {
+        const { name, email, password, confirmPassword } = req.body;
 
-                if (password !== confirmPassword)
-                    throw new Err("Password and Confirm Password don't match.", 403);
-            }
-        })
-        .catch((err) => {
-            next(err);
-        });
-
-    // hashing password and creating user
-    bcrypt.hash(password, 4)
-        .then((hash) => {
-            userModel.create({ name, email, password: hash })
-                .then((data) => {
-                    const token = jwt.sign({ email: data.email, _id: data._id, admin: false, timestamp: Date.now() }, process.env.HASHTOKEN);
-                    res.cookie('jwtToken', token, { httpOnly: true, maxAge: 24*60*60*1000 }) // Expires in a day
-                    return res.status(200).json({ email: data.email, message: "You are signuped successfully." });
-                })
-                .catch((err) => {
-                    next(err);
-                });
-        })
-        .catch((err) => {
-            next(err);
-        });
+        const emailRegex = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
+    
+        if (!emailRegex.test(email))
+            throw new Err("Please enter a valid email.", 400);
+    
+        if (password.length < 8)
+            throw new Err("Password too short.", 400);
+        
+        const lowerCaseEmail = email.toLowerCase()
+    
+        // check duplicate email
+        await userModel.findOne({ lowerCaseEmail })
+            .then((data) => {
+                if (data) {
+                    if (data.email == lowerCaseEmail)
+                        throw new Err("Email entered is already registered with us.", 403);
+    
+                    if (password !== confirmPassword)
+                        throw new Err("Password and Confirm Password don't match.", 403);
+                }
+            })
+            .catch((err) => {
+                next(err);
+            });
+    
+        // hashing password and creating user
+        bcrypt.hash(password, 4)
+            .then((hash) => {
+                userModel.create({ name, email: lowerCaseEmail, password: hash })
+                    .then((data) => {
+                        const token = jwt.sign({ email: data.email, _id: data._id, admin: false, timestamp: Date.now() }, process.env.HASHTOKEN);
+                        res.cookie('jwtToken', token, { httpOnly: true, maxAge: 24*60*60*1000 }) // Expires in a day
+                        return res.status(200).json({ email: data.email, message: "You are signuped successfully." });
+                    })
+                    .catch((err) => {
+                        next(err);
+                    });
+            })
+            .catch((err) => {
+                next(err);
+            });
+    } catch (err) {
+        next(err);
+    }
 };

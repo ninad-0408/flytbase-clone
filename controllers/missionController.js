@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Err } from "../helpers/errorHandler.js";
 import categoryModel from "../models/categoryModel.js";
 import missionModel from "../models/missionModel.js";
@@ -60,18 +61,26 @@ export const createMission = async (req, res, next) => {
     try {
         const { name, speed, alt, waypoints, site, category } = req.body;
 
+        if (!mongoose.Types.ObjectId.isValid(site))
+            throw new Err("Site is not valid", 400);
+
         const checkSite = await siteModel.findOne({ _id: site, status: 'active' });
 
         if (!checkSite)
             throw new Err("Site not found or site is not active.", 400);
         
-        if (site.created_by != req.user._id)
+        if (!site.created_by == req.user._id)
             throw new Err('You are not allowed to perform this action.', 401);
 
-        const checkCategory = await categoryModel.findOne({ _id: category, created_by: req.user._id });
+        if (category) {
+            if (!mongoose.Types.ObjectId.isValid(category))
+                throw new Err("Category is not valid", 400);
 
-        if (!checkCategory)
-            throw new Err("Category not found.", 400);
+            const checkCategory = await categoryModel.findOne({ _id: category, created_by: req.user._id });
+
+            if (!checkCategory)
+                throw new Err("Category not found.", 400);
+        }
 
         const newMission = await missionModel.create({ name, speed, alt, waypoints, site, category });
 
@@ -92,10 +101,17 @@ export const updateMission = async (req, res, next) => {
         
         if (mission) {
             if (mission.site.created_by == req.user._id) {
-                const checkCategory = await categoryModel.findOne({ _id: category, created_by: req.user._id });
 
-                if (!checkCategory)
-                    throw new Err("Category not found.", 400);
+                if (category) {
+                    if (!mongoose.Types.ObjectId.isValid(category))
+                        throw new Err("Category is not valid", 400);
+        
+                    const checkCategory = await categoryModel.findOne({ _id: category, created_by: req.user._id });
+
+                    if (!checkCategory)
+                        throw new Err("Category not found.", 400);
+                    
+                }
 
                 mission.name = name;
                 mission.speed = speed;

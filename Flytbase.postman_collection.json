@@ -1,0 +1,619 @@
+{
+	"info": {
+		"_postman_id": "62a3a76e-d4d6-4566-afe5-360bafbedb8a",
+		"name": "Flytbase",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9990884"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Sahaj Gupta\",\n    \"email\": \"sahajgupta@gmail.com\",\n    \"password\": \"12345678\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/user/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Login",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"jayshah@gmail.com\",\n    \"password\": \"12345678\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Login",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ninadkalanke@gmail.com\",\n    \"password\": \"12345678\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Site",
+			"item": [
+				{
+					"name": "Create Site",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"site_name\": \"jay_test_site_2\",\n    \"latitude\": 792.892,\n    \"longitude\": 82.6901\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/site/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"site",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Site",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"site_name\": \"jay_test_site_2_v1\",\n    \"longitude\": 820.7001,\n    \"latitude\": 620.7202\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/site/6478d68f9d0ef2999c75c57f/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"site",
+								"6478d68f9d0ef2999c75c57f",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Site",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/site/6478d68f9d0ef2999c75c57f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"site",
+								"6478d68f9d0ef2999c75c57f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Site",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/site/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"site",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"jay_test_cat_1\",\n    \"tag_name\": \"cat1\",\n    \"color\": 19087\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/category/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"category",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"jay_test_cat_1\",\n    \"tag_name\": \"cat1\",\n    \"color\": \"green\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/category/6479532c9d19865c2f61f28f/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"category",
+								"6479532c9d19865c2f61f28f",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/category/6479533b9d19865c2f61f291",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"category",
+								"6479533b9d19865c2f61f291"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/category/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Drone",
+			"item": [
+				{
+					"name": "Create Drone",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"drone_id\": \"1267\",\n    \"name\": \"test_drone_2\",\n    \"make_name\": \"jays_drone_2\",\n    \"drone_type\": \"survey_drone\",\n    \"assigned_to\": \"6478d4d59d0ef2999c75c577\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/drone/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"drone",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Drone",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test_drone_2_v1\",\n    \"make_name\": \"jays_drone_2\",\n    \"site\": \"6478d6549d0ef2999c75c57c\",\n    \"mission\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/drone/64795dccd57d2e32beca6fbf/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"drone",
+								"64795dccd57d2e32beca6fbf",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Drone",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/drone/64795dccd57d2e32beca6fbf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"drone",
+								"64795dccd57d2e32beca6fbf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Drone",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/drone/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"drone",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Drone (Category)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/drone/category/6479532c9d19865c2f61f28f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"drone",
+								"category",
+								"6479532c9d19865c2f61f28f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Drone (Site)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/drone/site/6478d6549d0ef2999c75c57c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"drone",
+								"site",
+								"6478d6549d0ef2999c75c57c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mission",
+			"item": [
+				{
+					"name": "Create Mission",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"jay_test_mission_2\",\n    \"speed\": 50,\n    \"alt\": 29,\n    \"waypoints\": [\n        {\n            \"alt\": 89,\n            \"lat\": 8200.702,\n            \"lng\": -271.82\n        },\n        {\n            \"alt\": 70,\n            \"lat\": 8720.702,\n            \"lng\": -21.82\n        }\n    ],\n    \"site\": \"6478d6549d0ef2999c75c57c\",\n    \"category\": \"6479532c9d19865c2f61f28f\"\n\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/mission/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"mission",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Mission",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"jay_test_mission_1\",\n    \"speed\": 50,\n    \"alt\": 29,\n    \"waypoints\": [\n        {\n            \"alt\": 89,\n            \"lat\": 8200.702,\n            \"lng\": -271.82\n        },\n        {\n            \"alt\": 70,\n            \"lat\": 8720.702,\n            \"lng\": -21.82\n        }\n    ],\n    \"category\": \"6479532c9d19865c2f61f28f\"\n\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/mission/6479fad68ed59b0fd6916451/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"mission",
+								"6479fad68ed59b0fd6916451",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Mission",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/mission/6479fd4cc074a12ac6e3c40b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"mission",
+								"6479fd4cc074a12ac6e3c40b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Mission",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/mission/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"mission",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Mission (Site)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/mission/site/6478d6549d0ef2999c75c57c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"mission",
+								"site",
+								"6478d6549d0ef2999c75c57c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Mission (Category)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/mission/category/6479532c9d19865c2f61f28f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"mission",
+								"category",
+								"6479532c9d19865c2f61f28f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
