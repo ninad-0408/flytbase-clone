@@ -125,7 +125,7 @@ export const updateDrone = async (req, res, next) => {
                 if (!checkSite)
                     throw new Err("Site not found or site is not active.", 400);
                 
-                if (req.user.admin != true && !(checkSite.created_by != req.user._id || checkSite.assigned_to != req.user._id))
+                if (!(req.user.admin == true) && !(!checkSite.created_by == req.user._id || !checkSite.assigned_to == req.user._id))
                     throw new Err('You are not allowed to perform this action.', 401);
                 
                 let checkMission;
@@ -161,7 +161,7 @@ export const deleteDrone = async (req, res, next) => {
                                       .populate('mission', 'status');
 
         if (drone) {
-            if (drone.mission?.status && drone.mission?.status != 'deleted')
+            if (drone.mission?.status && !(drone.mission?.status == 'deleted'))
                 throw new Err('Deletion failed: Drone is assigned to a mission.', 400);
 
             drone.deleted_by = req.user._id;

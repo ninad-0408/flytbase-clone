@@ -57,14 +57,14 @@ export const userSignup = async (req, res, next) => {
                 if (data) {
                     if (data.email == lowerCaseEmail)
                         throw new Err("Email entered is already registered with us.", 403);
-    
-                    if (password !== confirmPassword)
-                        throw new Err("Password and Confirm Password don't match.", 403);
                 }
             })
             .catch((err) => {
                 next(err);
             });
+        
+        if (password !== confirmPassword)
+            throw new Err("Password and Confirm Password don't match.", 403);
     
         // hashing password and creating user
         bcrypt.hash(password, 4)
