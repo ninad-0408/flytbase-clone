@@ -2,10 +2,12 @@ import { Err } from "../helpers/errorHandler.js";
 import droneModel from "../models/droneModel.js";
 import missionModel from "../models/missionModel.js";
 import categoryModel from "../models/categoryModel.js";
+import siteModel from "../models/siteModel.js";
+import mongoose from "mongoose";
 
 export const getDrones = async (req, res, next) => {
     try {
-        const drones = await droneModel.find({ assigned_to: req.user._id, created_by: req.user._id, status: { $ne: 'deleted' } });
+        const drones = await droneModel.find({ $or: [{ assigned_to: req.user._id }, { created_by: req.user._id }], status: { $ne: 'deleted' } });
         return res.status(200).json({ drones, message: "Drones fetched successfully." });
     }
     catch (err) {
@@ -35,7 +37,7 @@ export const getSiteDrones = async (req, res, next) => {
     try {
         const { siteId } = req.params;
 
-        const checkSite = await siteModel.findOne({ _id: site, status: { $ne: 'deleted' } });
+        const checkSite = await siteModel.findOne({ _id: siteId, status: { $ne: 'deleted' } });
 
         if (!checkSite)
             throw new Err("Site not found.", 400);
@@ -94,23 +96,26 @@ export const updateDrone = async (req, res, next) => {
         if (drone) {
             if (req.user.admin || drone.assigned_to == req.user._id) {
 
-                const checkSite = await siteModel.findOne({ _id: site, status: 'active' });
+                let checkSite;
+
+                if (mongoose.Types.ObjectId.isValid(site)) 
+                    checkSite = await siteModel.findOne({ _id: site, status: 'active', created_by: drone.assigned_to });
 
                 if (!checkSite)
                     throw new Err("Site not found or site is not active.", 400);
                 
-                if (req.user.admin != true && checkSite.created_by != req.user._id)
+                if (req.user.admin != true && !(checkSite.created_by != req.user._id || checkSite.assigned_to != req.user._id))
                     throw new Err('You are not allowed to perform this action.', 401);
+                
+                let checkMission;
+                
+                if (mongoose.Types.ObjectId.isValid(mission)) 
+                    checkMission = await missionModel.findOne({ _id: mission, site, status: { $ne: 'deleted' } });
 
-                const checkMission = await missionModel.findOne({ _id: mission, site, status: { $ne: 'deleted' } });
-
-                if (!checkMission)
-                    mission = undefined;
-                              
                 drone.name = name;
                 drone.make_name = make_name;
                 drone.site = site;
-                drone.mission = mission;
+                drone.mission = checkMission?._id;
 
                 await drone.save();
 
